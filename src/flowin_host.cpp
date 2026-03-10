@@ -692,8 +692,8 @@ public:
 			pfc::string8 element_name;
 			uGetWindowText(*this, element_name);
 			pfc::string_formatter msg;
-			msg << u8"你将要删除 \"" << element_name
-				<< u8"\"。\n这个操作无法撤消。您要继续吗？";
+			msg << u8"你将要删除 “" << element_name
+				<< u8"”。\n这个操作无法撤消。您要继续吗？";
 			if (uMessageBox(*this, msg, u8"警告", MB_OKCANCEL | MB_ICONWARNING) == IDOK)
 				fb2k::inMainThread([this]() { flowin_core::get()->remove_flowin(this->host_config_->guid, true); });
 			break;
