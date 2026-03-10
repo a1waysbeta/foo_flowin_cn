@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "flowin_menu_node.h"
 #include "flowin_core.h"
 #include "flowin_config.h"
@@ -38,7 +38,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
 
     if (auto group = flowin_menu_group::new_group(0 /*not used*/))
     {
-        if (auto node = group->new_node(menu_commands::show, "Show", flowin_menu_show_on_flowin))
+        if (auto node = group->new_node(menu_commands::show, "显示", flowin_menu_show_on_flowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -61,7 +61,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::show_on_startup, "Show on startup",
+        if (auto node = group->new_node(menu_commands::show_on_startup, "启动时显示",
                                         flowin_menu_show_on_flowin | flowin_menu_show_on_system_menu))
         {
             node->action = [](cfg_t& config)
@@ -79,7 +79,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::always_on_top, "Always on top", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::always_on_top, "总在最上面", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config)
             {
@@ -101,7 +101,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::bring_to_top, "Bring to top", flowin_menu_show_on_main_menu))
+        if (auto node = group->new_node(menu_commands::bring_to_top, "放置最上面", flowin_menu_show_on_main_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -114,7 +114,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::no_frame, "No window frame", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::no_frame, "无窗口边框", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config)
             {
@@ -136,7 +136,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::no_frame_silent, "No window frame (slient)",
+        if (auto node = group->new_node(menu_commands::no_frame_silent, "无窗口边框 (安静)",
                                         flowin_menu_show_on_main_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
@@ -151,7 +151,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::snap_to_edge, "Snap to screen edge", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::snap_to_edge, "吸附屏幕边缘", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -167,7 +167,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
         }
 
         if (auto node =
-                group->new_node(menu_commands::snap_auto_hide, "Auto hide when snapped", flowin_menu_show_on_all))
+                group->new_node(menu_commands::snap_auto_hide, "吸附时自动隐藏", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -185,11 +185,11 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
         // new snap group
         if (auto snap_group_node = group->new_node(menu_commands::invalid, "", flowin_menu_show_on_all))
         {
-            auto snap_group = flowin_menu_group::new_group(flowin_menu_group_submenu, "Snap");
+            auto snap_group = flowin_menu_group::new_group(flowin_menu_group_submenu, "吸附");
             snap_group_node->child_group = snap_group;
 
             if (auto node =
-                    snap_group->new_node(menu_commands::snap_to_edge, "Snap to screen edge", flowin_menu_show_on_all))
+                    snap_group->new_node(menu_commands::snap_to_edge, "吸附屏幕边缘", flowin_menu_show_on_all))
             {
                 node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -203,7 +203,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
                 };
             }
 
-            if (auto node = snap_group->new_node(menu_commands::snap_auto_hide, "Auto hide when snapped",
+            if (auto node = snap_group->new_node(menu_commands::snap_auto_hide, "吸附时自动隐藏",
                                                  flowin_menu_show_on_all))
             {
                 node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
@@ -218,7 +218,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
                 };
             }
 
-            if (auto node = snap_group->new_node(menu_commands::snap_hide, "Hide", flowin_menu_show_on_all))
+            if (auto node = snap_group->new_node(menu_commands::snap_hide, "隐藏", flowin_menu_show_on_all))
             {
                 node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -232,7 +232,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
                 };
             }
 
-            if (auto node = snap_group->new_node(menu_commands::snap_show, "Show", flowin_menu_show_on_all))
+            if (auto node = snap_group->new_node(menu_commands::snap_show, "显示", flowin_menu_show_on_all))
             {
                 node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -247,7 +247,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             }
         }
 
-        if (auto node = group->new_node(menu_commands::reset_position, "Reset position", flowin_menu_show_on_main_menu))
+        if (auto node = group->new_node(menu_commands::reset_position, "复位位置", flowin_menu_show_on_main_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -260,7 +260,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::edit_mode, "Edit mode", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::edit_mode, "编辑模式", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -274,7 +274,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::show_on_taskbar, "Show on taskbar", flowin_menu_show_on_system_menu))
+        if (auto node = group->new_node(menu_commands::show_on_taskbar, "在任务栏单独显示", flowin_menu_show_on_system_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -288,12 +288,12 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::custom_title, "Custom title", flowin_menu_show_on_system_menu))
+        if (auto node = group->new_node(menu_commands::custom_title, "自定义标题", flowin_menu_show_on_system_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
         }
 
-        if (auto node = group->new_node(menu_commands::hide_when_hover, "Hide when hover", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::hide_when_hover, "鼠标悬停时隐藏", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -306,12 +306,12 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::transparency, "Transparency", flowin_menu_show_on_system_menu))
+        if (auto node = group->new_node(menu_commands::transparency, "透明度", flowin_menu_show_on_system_menu))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
         }
 
-        if (auto node = group->new_node(menu_commands::show_info, "Info", flowin_menu_show_on_flowin))
+        if (auto node = group->new_node(menu_commands::show_info, "信息", flowin_menu_show_on_flowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -332,7 +332,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::destroy_flowin, "Delete", flowin_menu_show_on_all))
+        if (auto node = group->new_node(menu_commands::destroy_flowin, "删除", flowin_menu_show_on_all))
         {
             node->action = [id = node->id](cfg_t& config) { notify_flowin_command(config, id); };
 
@@ -345,7 +345,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
             };
         }
 
-        if (auto node = group->new_node(menu_commands::show_and_hide_main_window, "Show flowin and hide main window",
+        if (auto node = group->new_node(menu_commands::show_and_hide_main_window, "显示浮窗并隐藏主窗口",
                                         flowin_menu_show_on_flowin))
         {
             node->action = [](cfg_t& config)
@@ -370,7 +370,7 @@ flowin_menu_group::sp_t build_flowin_menu_nodes()
         }
 
         if (auto node = group->new_node(menu_commands::close_and_activate_main_window,
-                                        "Close flowin and activate main window", flowin_menu_show_on_flowin))
+                                        "关闭浮窗并激活主窗口", flowin_menu_show_on_flowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -405,12 +405,12 @@ flowin_menu_group_list build_flowin_menu_groups()
     // root
     if (auto root = flowin_menu_group::new_group(flowin_menu_group_root))
     {
-        if (auto node = root->new_node(menu_commands::new_flowin, "New flowin"))
+        if (auto node = root->new_node(menu_commands::new_flowin, "新建浮窗"))
         {
             node->action = [](cfg_t&) { flowin_core::get()->create_flowin(); };
         }
 
-        if (auto node = root->new_node(menu_commands::show_all, "Show all"))
+        if (auto node = root->new_node(menu_commands::show_all, "显示全部"))
         {
             node->action = [](cfg_t&)
             {
@@ -434,7 +434,7 @@ flowin_menu_group_list build_flowin_menu_groups()
             };
         }
 
-        if (auto node = root->new_node(menu_commands::close_all, "Close all"))
+        if (auto node = root->new_node(menu_commands::close_all, "全部关闭"))
         {
             node->action = [](cfg_t&)
             { configuration::for_each([](const cfg_flowin_host::sp_t& config) { notify_flowin(config, WM_CLOSE); }); };

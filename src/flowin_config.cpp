@@ -31,7 +31,7 @@ void cfg_flowin_host::reset()
     move_when_press_hot_key = true;
     enable_snap = false;
     enable_autohide_when_snapped = true;
-    window_title = "Flowin";
+    window_title = "浮窗";
     guid = pfc::guid_null;
     subelement_guid = pfc::guid_null;
     edit_mode = false;
