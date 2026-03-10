@@ -754,7 +754,7 @@ public:
 				pfc::string8 window_title;
 				uGetWindowText(*this, window_title);
 				pfc::string_formatter msg;
-				msg << u8"已为 \"" << window_title << u8"\" 启用 “鼠标悬停时隐藏”。\n\n"
+				msg << u8"已为 “" << window_title << u8"” 启用 “鼠标悬停时隐藏”。\n\n"
 					<< u8"注意：当鼠标进入该窗口时，窗口将自动隐藏。\n"
 					<< u8"在鼠标离开之前，您将无法与此面板进行任何交互。\n\n"
 					<< u8"如需关闭：主菜单 -> 视图 -> 浮窗 -> " << window_title << u8" -> 鼠标悬停时隐藏";
