@@ -1515,7 +1515,7 @@ private:
 		// Get default filename from window title
 		pfc::string8 default_name = sanitize_filename(host_config_->window_title);
 		if (default_name.is_empty())
-			default_name = "浮窗";
+			default_name = pfc::stringcvt::string_utf8_from_wide(L"浮窗");
 
 		pfc::stringcvt::string_wide_from_utf8 default_name_wide(default_name);
 
