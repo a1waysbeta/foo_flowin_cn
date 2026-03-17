@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "flowin_vars.h"
 #include "flowin_core.h"
 #include "flowin_config.h"
@@ -24,7 +24,7 @@ public:
 
         if (node_->id == menu_commands::identify)
         {
-            text = config_ ? config_->window_title : "Unknown";
+            text = config_ ? config_->window_title : "未知";
             flags = mainmenu_commands::flag_disabled;
         }
         else
@@ -149,11 +149,11 @@ public:
                 switch (group->group)
                 {
                 case flowin_menu_group_active:
-                    text = "Active";
+                    text = "激活";
                     return;
 
                 case flowin_menu_group_live:
-                    text = group->config ? group->config->window_title : "Unknown";
+                    text = group->config ? group->config->window_title : "未知";
                     return;
 
                 default:
@@ -167,7 +167,7 @@ public:
             }
         }
         // default
-        text = "Flowin";
+        text = "浮窗";
     }
 
     t_size get_children_count() override
@@ -200,7 +200,7 @@ public:
 
     void get_name(t_uint32 p_index, pfc::string_base& p_out) override
     {
-        p_out = "Flowin Menu";
+        p_out = "浮窗菜单";
     }
 
     bool get_description(t_uint32 p_index, pfc::string_base& p_out) override
