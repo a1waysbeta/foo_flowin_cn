@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "flowin_menu_node.h"
 #include "flowin_core.h"
 #include "flowin_config.h"
@@ -38,7 +38,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
 
     if (auto group = FlowinMenuGroup::NewGroup(0 /*not used*/))
     {
-        if (auto node = group->NewNode(MenuCommands::Show, "Show", FlowinMenuShowOnFlowin))
+        if (auto node = group->NewNode(MenuCommands::Show, "显示", FlowinMenuShowOnFlowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -61,7 +61,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::ShowOnStartup, "Show on startup",
+        if (auto node = group->NewNode(MenuCommands::ShowOnStartup, "启动时显示",
                                         FlowinMenuShowOnFlowin | FlowinMenuShowOnSystemMenu))
         {
             node->action = [](cfg_t& config)
@@ -79,7 +79,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::AlwaysOnTop, "Always on top", FlowinMenuShowOnAll))
+        if (auto node = group->NewNode(MenuCommands::AlwaysOnTop, "总在最上面", FlowinMenuShowOnAll))
         {
             node->action = [id = node->id](cfg_t& config)
             {
@@ -101,7 +101,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::BringToTop, "Bring to front", FlowinMenuShowOnMainMenu))
+        if (auto node = group->NewNode(MenuCommands::BringToTop, "放置最上面", FlowinMenuShowOnMainMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -114,7 +114,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::NoFrame, "Frameless window", FlowinMenuShowOnAll))
+        if (auto node = group->NewNode(MenuCommands::NoFrame, "无窗口边框", FlowinMenuShowOnAll))
         {
             node->action = [id = node->id](cfg_t& config)
             {
@@ -136,7 +136,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::NoFrameSilent, "Frameless window (no dialog)",
+        if (auto node = group->NewNode(MenuCommands::NoFrameSilent, "无窗口边框 (安静)",
                                         FlowinMenuShowOnMainMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
@@ -154,11 +154,11 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
         // snap group
         if (auto snap_group_node = group->NewNode(MenuCommands::Invalid, "", FlowinMenuShowOnAll))
         {
-            auto snap_group = FlowinMenuGroup::NewGroup(FlowinMenuGroupSubmenu, "Snap");
+            auto snap_group = FlowinMenuGroup::NewGroup(FlowinMenuGroupSubmenu, "吸附");
             snap_group_node->child_group = snap_group;
 
             if (auto node =
-                    snap_group->NewNode(MenuCommands::SnapToEdge, "Snap to screen edge", FlowinMenuShowOnAll))
+                    snap_group->NewNode(MenuCommands::SnapToEdge, "吸附屏幕边缘", FlowinMenuShowOnAll))
             {
                 node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -172,7 +172,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
                 };
             }
 
-            if (auto node = snap_group->NewNode(MenuCommands::AutoHideWhenSnapped, "Auto-hide when snapped",
+            if (auto node = snap_group->NewNode(MenuCommands::AutoHideWhenSnapped, "吸附时自动隐藏",
                                                  FlowinMenuShowOnAll))
             {
                 node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
@@ -187,7 +187,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
                 };
             }
 
-            if (auto node = snap_group->NewNode(MenuCommands::SnapHide, "Hide", FlowinMenuShowOnAll))
+            if (auto node = snap_group->NewNode(MenuCommands::SnapHide, "隐藏", FlowinMenuShowOnAll))
             {
                 node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -201,7 +201,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
                 };
             }
 
-            if (auto node = snap_group->NewNode(MenuCommands::SnapShow, "Show", FlowinMenuShowOnAll))
+            if (auto node = snap_group->NewNode(MenuCommands::SnapShow, "显示", FlowinMenuShowOnAll))
             {
                 node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -216,7 +216,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             }
         }
 
-        if (auto node = group->NewNode(MenuCommands::ResetPosition, "Reset position", FlowinMenuShowOnMainMenu))
+        if (auto node = group->NewNode(MenuCommands::ResetPosition, "复位位置", FlowinMenuShowOnMainMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -229,7 +229,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::EditMode, "Edit mode", FlowinMenuShowOnAll))
+        if (auto node = group->NewNode(MenuCommands::EditMode, "编辑模式", FlowinMenuShowOnAll))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -243,7 +243,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::ShowOnTaskbar, "Show in taskbar", FlowinMenuShowOnSystemMenu))
+        if (auto node = group->NewNode(MenuCommands::ShowOnTaskbar, "在任务栏单独显示", FlowinMenuShowOnSystemMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -257,12 +257,12 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::CustomTitle, "Custom title", FlowinMenuShowOnSystemMenu))
+        if (auto node = group->NewNode(MenuCommands::CustomTitle, "自定义标题", FlowinMenuShowOnSystemMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
         }
 
-        if (auto node = group->NewNode(MenuCommands::AutoHideWhenHovered, "Auto-hide when hovered", FlowinMenuShowOnAll))
+        if (auto node = group->NewNode(MenuCommands::AutoHideWhenHovered, "鼠标悬停时自动隐藏", FlowinMenuShowOnAll))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -275,12 +275,12 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::Transparency, "Transparency", FlowinMenuShowOnSystemMenu))
+        if (auto node = group->NewNode(MenuCommands::Transparency, "透明度", FlowinMenuShowOnSystemMenu))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
         }
 
-        if (auto node = group->NewNode(MenuCommands::ShowInfo, "Info", FlowinMenuShowOnFlowin))
+        if (auto node = group->NewNode(MenuCommands::ShowInfo, "信息", FlowinMenuShowOnFlowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -301,7 +301,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::DestroyFlowin, "Delete", FlowinMenuShowOnAll))
+        if (auto node = group->NewNode(MenuCommands::DestroyFlowin, "删除", FlowinMenuShowOnAll))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
 
@@ -315,7 +315,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
         }
 
         // Export/Import config (Shift+Right-click only)
-        if (auto node = group->NewNode(MenuCommands::ExportConfig, "Export configuration",
+        if (auto node = group->NewNode(MenuCommands::ExportConfig, "导出配置",
                                         FlowinMenuShowOnSystemMenu | FlowinMenuShowShiftOnly))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
@@ -329,7 +329,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::ImportConfig, "Import configuration",
+        if (auto node = group->NewNode(MenuCommands::ImportConfig, "导入配置",
                                         FlowinMenuShowOnSystemMenu | FlowinMenuShowShiftOnly))
         {
             node->action = [id = node->id](cfg_t& config) { NotifyFlowinCommand(config, id); };
@@ -343,7 +343,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
             };
         }
 
-        if (auto node = group->NewNode(MenuCommands::ShowAndHideMainWindow, "Show flowin, hide main window",
+        if (auto node = group->NewNode(MenuCommands::ShowAndHideMainWindow, "显示浮窗并隐藏主窗口",
                                         FlowinMenuShowOnFlowin))
         {
             node->action = [](cfg_t& config)
@@ -368,7 +368,7 @@ FlowinMenuGroup::Ptr BuildFlowinMenuNodes()
         }
 
         if (auto node = group->NewNode(MenuCommands::CloseAndActivateMainWindow,
-                                        "Close flowin, activate main window", FlowinMenuShowOnFlowin))
+                                        "关闭浮窗并激活主窗口", FlowinMenuShowOnFlowin))
         {
             node->action = [](cfg_t& config)
             {
@@ -403,12 +403,12 @@ FlowinMenuGroupList BuildFlowinMenuGroups()
     // root
     if (auto root = FlowinMenuGroup::NewGroup(FlowinMenuGroupRoot))
     {
-        if (auto node = root->NewNode(MenuCommands::NewFlowin, "New flowin"))
+        if (auto node = root->NewNode(MenuCommands::NewFlowin, "新建浮窗"))
         {
             node->action = [](cfg_t&) { FlowinCore::Get()->CreateFlowin(); };
         }
 
-        if (auto node = root->NewNode(MenuCommands::ShowAll, "Show all"))
+        if (auto node = root->NewNode(MenuCommands::ShowAll, "显示全部"))
         {
             node->action = [](cfg_t&)
             {
@@ -432,7 +432,7 @@ FlowinMenuGroupList BuildFlowinMenuGroups()
             };
         }
 
-        if (auto node = root->NewNode(MenuCommands::CloseAll, "Close all"))
+        if (auto node = root->NewNode(MenuCommands::CloseAll, "全部关闭"))
         {
             node->action = [](cfg_t&)
             { Configuration::ForEach([](const CfgFlowinHost::Ptr& config) { NotifyFlowin(config, WM_CLOSE); }); };

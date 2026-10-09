@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <shobjidl.h>
 #include <comdef.h>
 #include <dwmapi.h>
@@ -166,7 +166,7 @@ public:
 
     static void g_get_name(pfc::string_base& out)
     {
-        out = "Flowin";
+        out = pfc::stringcvt::string_utf8_from_wide(L"浮窗");
     }
 
     static ui_element_config::ptr g_get_default_configuration()
@@ -767,9 +767,9 @@ public:
             pfc::string8 element_name;
             uGetWindowText(*this, element_name);
             pfc::string_formatter msg;
-            msg << " You are about to delete \"" << element_name
-                << "\".\n This action cannot be undone.  Do you want to continue?";
-            if (uMessageBox(*this, msg, "Warning", MB_OKCANCEL | MB_ICONWARNING) == IDOK)
+            msg << u8"你将要删除 “" << element_name
+                << u8"”。\n这个操作无法撤消。您要继续吗？";
+            if (uMessageBox(*this, msg, u8"警告", MB_OKCANCEL | MB_ICONWARNING) == IDOK)
                 fb2k::inMainThread([this]() { FlowinCore::Get()->RemoveFlowin(this->host_config->guid, true); });
             break;
         }
@@ -829,11 +829,11 @@ public:
                 pfc::string8 window_title;
                 uGetWindowText(*this, window_title);
                 pfc::string_formatter msg;
-                msg << "\"Auto-hide when hovered\" is now enabled for \"" << window_title << "\".\n\n"
-                    << "Note: When the mouse enters this window, it will become invisible.\n"
-                    << "You won't be able to interact with the panel until the mouse leaves.\n\n"
-                    << "To disable: Main Menu -> View -> Flowin -> " << window_title << " -> Auto-hide when hovered";
-                uMessageBox(*this, msg, "Auto-hide when hovered", MB_OK | MB_ICONINFORMATION);
+                msg << u8"已为 “" << window_title << u8"” 启用 “鼠标悬停时自动隐藏”。\n\n"
+                    << u8"注意：当鼠标进入该窗口时，窗口将自动隐藏。\n"
+                    << u8"在鼠标离开之前，您将无法与此面板进行任何交互。\n\n"
+                    << u8"如需关闭：主菜单 -> 视图 -> 浮窗 -> " << window_title << u8" -> 鼠标悬停时自动隐藏";
+                uMessageBox(*this, msg, u8"鼠标悬停时自动隐藏", MB_OK | MB_ICONINFORMATION);
             }
             else
             {
@@ -1031,7 +1031,7 @@ private:
         SelectObjectScope scope(dc, (HGDIOBJ)callback->query_font_ex(ui_font_default));
         CRect rc;
         GetClientRect(&rc);
-        dc.DrawText(_T("Click to add new element."), -1, &rc, DT_NOPREFIX | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        dc.DrawText(L"点击添加新元件。", -1, &rc, DT_NOPREFIX | DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 
     BOOL OnEraseBkgnd(CDCHandle dc)
@@ -1564,7 +1564,7 @@ private:
         // Get default filename from window title
         pfc::string8 default_name = SanitizeFilename(host_config->window_title);
         if (default_name.is_empty())
-            default_name = "flowin";
+            default_name = pfc::stringcvt::string_utf8_from_wide(L"浮窗");
 
         pfc::stringcvt::string_wide_from_utf8 default_name_wide(default_name);
 
@@ -1573,7 +1573,7 @@ private:
         if (SUCCEEDED(file_dialog.CreateInstance(CLSID_FileSaveDialog, nullptr, CLSCTX_INPROC_SERVER)))
         {
             // Set file types
-            COMDLG_FILTERSPEC file_types[] = {{L"Flowin Config Files", L"*.fwcfg"}, {L"All Files", L"*.*"}};
+            COMDLG_FILTERSPEC file_types[] = {{L"浮窗配置文件", L"*.fwcfg"}, {L"所有文件", L"*.*"}};
             file_dialog->SetFileTypes(ARRAYSIZE(file_types), file_types);
             file_dialog->SetDefaultExtension(L"fwcfg");
             file_dialog->SetFileName(default_name_wide);
@@ -1628,21 +1628,21 @@ private:
                                 {
                                     pfc::string8_fast win_err;
                                     pfc::string8_fast msg;
-                                    msg << "Failed to write configuration file.";
+                                    msg << u8"写入配置文件失败。";
                                     if (pfc::winFormatSystemErrorMessage(win_err, err))
-                                        msg << "\r\nError: " << win_err;
-                                    uMessageBox(*this, msg, "Export Error", MB_OK | MB_ICONERROR);
+                                        msg << u8"\r\n错误信息：" << win_err;
+                                    uMessageBox(*this, msg, u8"导出错误", MB_OK | MB_ICONERROR);
                                 }
                             }
                             else
                             {
-                                uMessageBox(*this, "Failed to save configuration file.", "Export Error",
+                                uMessageBox(*this, u8"保存配置文件失败。", u8"导出错误",
                                             MB_OK | MB_ICONERROR);
                             }
                         }
                         catch (std::exception&)
                         {
-                            uMessageBox(*this, "Failed to export configuration.", "Export Error", MB_OK | MB_ICONERROR);
+                            uMessageBox(*this, u8"导出配置失败。", u8"导出错误", MB_OK | MB_ICONERROR);
                         }
 
                         CoTaskMemFree(file_path);
@@ -1656,8 +1656,8 @@ private:
     {
         // Confirm before import
         if (uMessageBox(*this,
-                        "Importing configuration will replace the current flowin window.\n\nDo you want to continue?",
-                        "Import Configuration", MB_YESNO | MB_ICONQUESTION) != IDYES)
+                        u8"导入配置将替换当前的浮窗窗口。\n\n是否继续？",
+                        u8"导入配置", MB_YESNO | MB_ICONQUESTION) != IDYES)
         {
             return;
         }
@@ -1667,7 +1667,7 @@ private:
         if (SUCCEEDED(file_dialog.CreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER)))
         {
             // Set file types
-            COMDLG_FILTERSPEC file_types[] = {{L"Flowin Config Files", L"*.fwcfg"}, {L"All Files", L"*.*"}};
+            COMDLG_FILTERSPEC file_types[] = {{L"浮窗配置文件", L"*.fwcfg"}, {L"所有文件", L"*.*"}};
             file_dialog->SetFileTypes(ARRAYSIZE(file_types), file_types);
             file_dialog->SetDefaultExtension(L"fwcfg");
             file_dialog->SetOptions(FOS_FILEMUSTEXIST | FOS_PATHMUSTEXIST);
@@ -1687,7 +1687,7 @@ private:
                                                              OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
                             if (file_handle == INVALID_HANDLE_VALUE)
                             {
-                                uMessageBox(*this, "Failed to open configuration file.", "Import Error",
+                                uMessageBox(*this, u8"无法打开配置文件。", u8"导入错误",
                                             MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
@@ -1697,7 +1697,7 @@ private:
                             if (file_size == INVALID_FILE_SIZE || file_size < FWCFG_HEADER_SIZE)
                             {
                                 CloseHandle(file_handle);
-                                uMessageBox(*this, "Invalid configuration file: file too small.", "Import Error", MB_OK | MB_ICONERROR);
+                                uMessageBox(*this, u8"无效的配置文件：文件太小。", u8"导入错误", MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
                             }
@@ -1710,7 +1710,7 @@ private:
                                 bytes_read != file_size)
                             {
                                 CloseHandle(file_handle);
-                                uMessageBox(*this, "Failed to read configuration file.", "Import Error",
+                                uMessageBox(*this, u8"读取配置文件失败。", u8"导入错误",
                                             MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
@@ -1721,7 +1721,7 @@ private:
                             const fwcfg_header_t* header = reinterpret_cast<const fwcfg_header_t*>(buffer.get_ptr());
                             if (header->magic != FWCFG_MAGIC)
                             {
-                                uMessageBox(*this, "Invalid configuration file: wrong file format.", "Import Error",
+                                uMessageBox(*this, u8"无效的配置文件：文件格式错误。", u8"导入错误",
                                             MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
@@ -1729,7 +1729,7 @@ private:
 
                             if (header->data_size != file_size - FWCFG_HEADER_SIZE)
                             {
-                                uMessageBox(*this, "Invalid configuration file: data size mismatch.", "Import Error",
+                                uMessageBox(*this, u8"无效的配置文件：数据大小不匹配。", u8"导入错误",
                                             MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
@@ -1739,7 +1739,7 @@ private:
                             const uint32_t calculated_crc = Utils::CalculateCrc32(buffer.get_ptr() + FWCFG_HEADER_SIZE, header->data_size);
                             if (header->data_crc != calculated_crc)
                             {
-                                uMessageBox(*this, "Invalid configuration file: CRC check failed.", "Import Error",
+                                uMessageBox(*this, u8"无效的配置文件：CRC 校验失败。", u8"导入错误",
                                             MB_OK | MB_ICONERROR);
                                 CoTaskMemFree(file_path);
                                 return;
@@ -1773,7 +1773,7 @@ private:
                         }
                         catch (std::exception&)
                         {
-                            uMessageBox(*this, "Failed to import configuration.", "Import Error", MB_OK | MB_ICONERROR);
+                            uMessageBox(*this, u8"导入配置失败。", u8"导入错误", MB_OK | MB_ICONERROR);
                         }
                         CoTaskMemFree(file_path);
                     }
