@@ -17,11 +17,12 @@ permissions:
 
 jobs:
   build:
-    runs-on: windows-latest
+    # 使用 windows-2022 镜像，它默认包含 ATL 组件。
+    # windows-latest 目前指向 windows-2025，ATL 可能未预装，导致 atlbase.h 找不到。
+    runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4
-
 
     - name: Set up Python
       uses: actions/setup-python@v5
